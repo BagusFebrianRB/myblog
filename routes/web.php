@@ -1,13 +1,24 @@
 <?php
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home', ['title' => 'Home Page']);
 });
 
-Route::get('/blog', function () {
-    return view('blog', ['title' => 'Blog']);
+Route::get('/posts', function () {
+    $posts = Post::all();
+    return view('posts', ['title' => 'Blog', 'posts' => $posts]);
+});
+
+Route::get('/authors/{user:username}', function (User $user) {
+    return view('posts', ['title' => count($user->posts) . ' Article By ' . $user->name, 'posts' => $user->posts]);
+});
+
+Route::get('/posts/{post:slug}', function (Post $post) {
+    return view('post', ['title' => 'Single Post', 'post' => $post ]);
 });
 
 Route::get('/about', function () {
