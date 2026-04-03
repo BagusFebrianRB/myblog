@@ -8,16 +8,18 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class PostSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        $this->call([CategorySeeder::class, UserSeeder::class, PostSeeder::class]);
-
+        Post::factory(30)->recycle(
+            [
+                User::all(),
+                Category::all()
+            ]
+        )->create();
     }
 }
